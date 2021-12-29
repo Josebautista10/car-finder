@@ -4,7 +4,11 @@ function Home() {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
-  console.log(items.Results);
+  console.log(typeof(items.Results))
+  console.log(items)
+  for (let item in items.Results) {
+    console.log(items.Results[item].Make_Name, items.Results[item].Model_Name)
+  }
 
   useEffect(() => {
     fetch('https://vpic.nhtsa.dot.gov/api/vehicles/getmodelsformakeyear/make/honda/modelyear/2015?format=json')
@@ -45,8 +49,9 @@ function Home() {
       </form>
       <ul>
         {items.Results.map(item => (
-          <li key={item.id}>
-            {item.Make_Name}
+          <li>
+          {/* gotta wait for something to load before I can display */}
+            {item.Make_Name} {item.Model_Name}
           </li>
         ))}
         </ul>
