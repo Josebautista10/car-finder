@@ -6,11 +6,6 @@ function Home() {
   const [year, setYear] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
-  console.log(typeof(items.Results))
-  console.log(items)
-  for (let item in items.Results) {
-    console.log(items.Results[item].Make_Name, items.Results[item].Model_Name)
-  }
 
 
   
@@ -18,17 +13,22 @@ function Home() {
     event.preventDefault();
     console.log(event.target)
     const makeInput = event.target.make.value; // accessing directly
-    const yearInput = event.target.elements.year.value; // accessing via `form.elements`
+    // const yearInput = event.target.elements.year.value; // accessing via `form.elements`
+    console.log(makeInput)
     setMake(makeInput)
-    setYear(yearInput)
+    // setYear(yearInput)
+  };
+  
+  console.log(make); 
+  const listOfCars = items.filter(car => car.make === make).map(car => {
+    return <li>{car.year}</li>
+  })
 
+  console.log(listOfCars)
 
-    console.log(make); 
-    console.log(year); 
-};
 
   useEffect(() => {
-    fetch(`https://vpic.nhtsa.dot.gov/api/vehicles/getmodelsformakeyear/make/${make}/modelyear/${year}?format=json`)
+    fetch("https://private-anon-ed07454f4c-carsapi1.apiary-mock.com/cars")
       .then(res => res.json())
       .then(
         (result) => {
@@ -44,29 +44,21 @@ function Home() {
         }
       )
   }, [])
-
-  const list = items.Results.map(item => (
-    <li>
-    {/* gotta wait for something to load before I can display */}
-      {item.Make_Name} {item.Model_Name}
-    </li>
-  ))
-
+  console.log(items.filter(e => e.horsepower < 150))
   
-
   return (
     <div>
       <form action='' className='form-example' onSubmit={handleSubmit}>
         <div className='form-example'>
           <label htmlFor='name'>Make: </label>
           <input type='text' name='make' id='car' required />
-          <label htmlFor='year'>year: </label>
-          <input type='number' name='year' id='car' required />
+          {/* <label htmlFor='year'>year: </label>
+          <input type='number' name='year' id='car' required /> */}
         </div>
         <button type="submit">Submit</button>
       </form>
       <ul>
-        {list}
+        {listOfCars}
         </ul>
     </div>
   )
