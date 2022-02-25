@@ -20,8 +20,15 @@ function Home() {
   };
   
   console.log(make); 
-  const listOfCars = items.filter(car => car.make === make).map(car => {
-    return <li>{car.year}</li>
+  const filterCars = items.filter(car => car.make === make)
+  let foundCars = filterCars.length
+  const listOfCars = filterCars.map(car => {
+    return <li key={car.id}>
+    <img src={car.img_url} alt={car.model}/>
+    <h4>model: {car.model}</h4>
+    <p>year: {car.year}</p>
+    <p>horsepower: {car.horsepower}</p>
+    </li>
   })
 
   console.log(listOfCars)
@@ -44,7 +51,6 @@ function Home() {
         }
       )
   }, [])
-  console.log(items.filter(e => e.horsepower < 150))
   
   return (
     <div>
@@ -58,6 +64,7 @@ function Home() {
         <button type="submit">Submit</button>
       </form>
       <ul>
+      {foundCars && <h1>Found {foundCars} cars</h1>}
         {listOfCars}
         </ul>
     </div>
