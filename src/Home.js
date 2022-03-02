@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import FoundCars from './components/FoundCars'
 
 function Home() {
   const [error, setError] = useState(null);
   const [make, setMake] = useState(null);
   const [year, setYear] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [items, setItems] = useState([]);
+  const [cars, setCars] = useState([]);
 
 
   
@@ -20,7 +21,7 @@ function Home() {
   };
   
   console.log(make); 
-  const filterCars = items.filter(car => car.make === make)
+  const filterCars = cars.filter(car => car.make === make)
   let foundCars = filterCars.length
   const listOfCars = filterCars.map(car => {
     return <li key={car.id}>
@@ -40,7 +41,7 @@ function Home() {
       .then(
         (result) => {
           setIsLoaded(true);
-          setItems(result);
+          setCars(result);
         },
         // Note: it's important to handle errors here
         // instead of a catch() block so that we don't swallow
@@ -63,10 +64,7 @@ function Home() {
         </div>
         <button type="submit">Submit</button>
       </form>
-      <ul>
-      {foundCars ?<h1>Found {foundCars} cars</h1> : ''}
-        {listOfCars}
-        </ul>
+      <FoundCars cars={cars} make={make}/>
     </div>
   )
 }
