@@ -64,7 +64,7 @@ function Home() {
         <button type="submit">Submit</button>
       </form>
       <ul>
-      {foundCars && <h1>Found {foundCars} cars</h1>}
+      {foundCars ?<h1>Found {foundCars} cars</h1> : ''}
         {listOfCars}
         </ul>
     </div>
